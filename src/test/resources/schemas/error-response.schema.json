@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "ErrorResponse",
+  "type": "object",
+  "required": ["code", "message", "details", "traceId"],
+  "additionalProperties": false,
+  "properties": {
+    "code": { "type": "string", "pattern": "^[A-Z_]+$" },
+    "message": { "type": "string", "minLength": 1 },
+    "details": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["field", "issue"],
+        "additionalProperties": false,
+        "properties": {
+          "field": { "type": "string" },
+          "issue": { "type": "string" }
+        }
+      }
+    },
+    "traceId": { "type": "string", "pattern": "^trc_[a-f0-9]{24}$" }
+  }
+}

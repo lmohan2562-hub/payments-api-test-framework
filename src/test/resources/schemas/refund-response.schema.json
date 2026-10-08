@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "RefundResponse",
+  "type": "object",
+  "required": ["refundId", "authorizationId", "status", "amount", "remainingRefundable", "createdAt"],
+  "additionalProperties": false,
+  "properties": {
+    "refundId": { "type": "string", "pattern": "^rf_[a-f0-9]{24}$" },
+    "authorizationId": { "type": "string", "pattern": "^auth_[a-f0-9]{24}$" },
+    "status": { "type": "string", "enum": ["SUCCEEDED", "PENDING", "FAILED"] },
+    "amount": { "$ref": "#/definitions/money" },
+    "remainingRefundable": { "$ref": "#/definitions/money" },
+    "reason": { "type": "string", "maxLength": 140 },
+    "createdAt": { "type": "string", "format": "date-time" }
+  },
+  "definitions": {
+    "money": {
+      "type": "object",
+      "required": ["value", "currency"],
+      "additionalProperties": false,
+      "properties": {
+        "value": { "type": "integer", "minimum": 0 },
+        "currency": { "type": "string", "pattern": "^[A-Z]{3}$" }
+      }
+    }
+  }
+}

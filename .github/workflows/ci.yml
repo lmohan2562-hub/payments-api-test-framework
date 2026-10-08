@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: TestNG suite (regression | smoke)
+        required: false
+        default: regression
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: API tests (${{ github.event.inputs.suite || 'regression' }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      # Input passed via env var (not inlined into the script) to avoid shell injection.
+      - name: Run tests
+        env:
+          SUITE: ${{ github.event.inputs.suite || 'regression' }}
+        run: mvn -B verify -Dsuite="$SUITE"
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            target/surefire-reports/
+            target/reports/
+            target/logs/
+          retention-days: 14
+          if-no-files-found: warn

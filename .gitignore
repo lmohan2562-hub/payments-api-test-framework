@@ -1,0 +1,23 @@
+# Build output
+target/
+*.class
+
+# Local configuration (may contain environment-specific values; never commit)
+config.properties
+*.local.properties
+.env
+.env.*
+
+# Logs and reports
+*.log
+test-output/
+
+# IDE / OS
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+.DS_Store
+Thumbs.db
