@@ -206,8 +206,14 @@ docker run --rm -v "$PWD/target:/workspace/target" payments-api-tests -Dsuite=sm
 
 ## Sample output
 
-> **TODO before publishing:** paste the console summary from your first green `mvn -B verify` run here
-> (the `Tests run: ... Failures: 0` block and `BUILD SUCCESS`).
+From the first GitHub Actions run (`mvn -B verify`, JDK 17, ubuntu-latest, 8 Oct 2026):
+
+```
+[INFO] Tests run: 75, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.624 s -- in TestSuite
+[INFO] Results:
+[INFO] Tests run: 75, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+```
 
 The suite is designed to run **60 test methods / 75 test invocations** in the regression suite
 (including 4 decline-code rows and 13 validation rows from DataProviders), and 8 in the smoke suite.
